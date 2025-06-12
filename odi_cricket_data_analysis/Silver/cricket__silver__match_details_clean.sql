@@ -70,6 +70,11 @@ select
     coalesce(info:outcome.winner, 'NA') as winner,
     info:toss.winner::text as toss_winner,
     initcap(info:toss.decision::text) as toss_decision,
+    info:officials.match_referees[0]::string as match_referee,
+    info:officials.reserve_umpires[0]::string as reserve_umpire,
+    info:officials.tv_umpires[0]::string as tv_umpire,
+    info:officials.umpires[0]::string as first_umpire,
+    info:officials.umpires[1]::string as second_umpire,  
     --
     stg_file_name,
     stg_file_row_number,
