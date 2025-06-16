@@ -65,7 +65,11 @@ create or replace table match_type_dim (
 create or replace table match_fact (
     match_id INT PRIMARY KEY autoincrement,
     date_id INT NOT NULL,
-    referee_id INT NOT NULL,
+    match_referee_id INT NOT NULL,
+    reserve_umpire_id INT NOT NULL,
+    tv_umpire_id INT NOT NULL,
+    first_umpire_id INT NOT NULL,
+    second_umpire_id INT NOT NULL,
     team_a_id INT NOT NULL,
     team_b_id INT NOT NULL,
     match_type_id INT NOT NULL,
@@ -97,9 +101,15 @@ create or replace table match_fact (
     winner_team_id int not null,
 
     CONSTRAINT fk_date FOREIGN KEY (date_id) REFERENCES date_dim (date_id),
-    CONSTRAINT fk_referee FOREIGN KEY (referee_id) REFERENCES referee_dim (referee_id),
-    CONSTRAINT fk_team1 FOREIGN KEY (team_a_id) REFERENCES team_dim (team_id),
-    CONSTRAINT fk_team2 FOREIGN KEY (team_b_id) REFERENCES team_dim (team_id),
+
+    CONSTRAINT fk_match_referee FOREIGN KEY (match_referee_id) REFERENCES referee_dim (referee_id),
+    CONSTRAINT fk_reserve_umpire FOREIGN KEY (reserve_umpire_id) REFERENCES referee_dim (referee_id),
+    CONSTRAINT fk_tv_umpire FOREIGN KEY (tv_umpire_id) REFERENCES referee_dim (referee_id),
+    CONSTRAINT fk_first_umpire FOREIGN KEY (first_umpire_id) REFERENCES referee_dim (referee_id),
+    CONSTRAINT fk_second_umpire FOREIGN KEY (second_umpire_id) REFERENCES referee_dim (referee_id),
+
+    CONSTRAINT fk_team_a FOREIGN KEY (team_a_id) REFERENCES team_dim (team_id),
+    CONSTRAINT fk_team_b FOREIGN KEY (team_b_id) REFERENCES team_dim (team_id),
     CONSTRAINT fk_match_type FOREIGN KEY (match_type_id) REFERENCES match_type_dim (match_type_id),
     CONSTRAINT fk_venue FOREIGN KEY (venue_id) REFERENCES venue_dim (venue_id),
 
