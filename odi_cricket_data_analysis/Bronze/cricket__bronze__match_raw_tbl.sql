@@ -2,7 +2,7 @@ use role sysadmin;
 use warehouse sysadmin_wh;
 use schema cricket.bronze;
 
-create or replace transient table cricket.bronze.match_raw_tbl (
+create or replace table cricket.bronze.match_raw_tbl (
     meta object not null,
     info variant not null,
     innings array not null,

@@ -121,7 +121,7 @@
 --  , lateral flatten(input => wickets.value:fielders, outer => True) fielders
 --  where match_type_number = '3836';
 
- create or replace transient table cricket.silver.delivery_clean_tbl as
+ create or replace table cricket.silver.delivery_clean_tbl as
  select
     m.info:match_type_number::int as match_type_number,
     innings.value:team::text as team_name,

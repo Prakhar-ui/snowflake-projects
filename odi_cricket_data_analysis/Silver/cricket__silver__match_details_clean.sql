@@ -41,7 +41,7 @@ use schema cricket.silver;
 --     cricket.bronze.match_raw_tbl;
 
     
-create or replace transient table cricket.silver.match_details_clean as 
+create or replace table cricket.silver.match_details_clean as 
 select 
     info:match_type_number::int as match_type_number,
     info:event.name::text as event_name,
