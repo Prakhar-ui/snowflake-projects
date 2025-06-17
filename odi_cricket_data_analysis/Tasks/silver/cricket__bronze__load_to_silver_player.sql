@@ -14,7 +14,7 @@ create or replace task cricket.bronze.load_to_silver_player
     stg_file_hashkey,
     stg_modified_ts
     from 
-    cricket.bronze.for_player_stream,
+    cricket.bronze.for_player_stream bronze,
     lateral flatten (input => bronze.info:players) p,
     lateral flatten (input => p.value) team
 ;

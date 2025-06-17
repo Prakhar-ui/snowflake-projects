@@ -1,6 +1,6 @@
 create or replace task cricket.bronze.load_to_silver_match
     warehouse = 'SYSADMIN_WH'
-    after cricket.bronze.load_json_to_raw
+    after cricket.bronze.load_json_to_bronze
     when system$stream_has_data ('cricket.bronze.for_match_stream')
         as 
     insert into cricket.silver.match_details_clean  
