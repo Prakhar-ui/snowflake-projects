@@ -132,10 +132,16 @@
     deliveries.value:runs:batter as runs,
     deliveries.value:runs:extras as extras,
     deliveries.value:runs:total as total,
-    extras.key as extras_type,
+    extras.key::text as extras_type,
+    extras.value::number as extra_runs,
     wickets.value:kind::text as wicket_type,
     wickets.value:player_out::text as player_out,
-    fielders.value:name::text as fielder_name
+    fielders.value:name::text as fielder_name,
+    --
+    m.stg_file_name,
+    m.stg_file_row_number,
+    m.stg_file_hashkey,
+    m.stg_modified_ts
  from cricket.bronze.match_raw_tbl as m
  , lateral flatten(input => m.innings) innings
  , lateral flatten(input => innings.value:overs) overs
