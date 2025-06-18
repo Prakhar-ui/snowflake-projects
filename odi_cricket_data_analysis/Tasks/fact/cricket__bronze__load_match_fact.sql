@@ -7,11 +7,11 @@ create or replace task cricket.bronze.load_match_fact
     select 
     m.match_type_number as match_id,
     dd.date_id,
-    mr.referee_id as match_referee_id,
-    ru.referee_id as reserve_umpire_id,
-    tu.referee_id as tv_umpire_id,
-    fu.referee_id as first_umpire_id,
-    su.referee_id as second_umpire_id,
+    m.match_referee,
+    m.reserve_umpire,
+    m.tv_umpire,
+    m.first_umpire,
+    m.second_umpire,
     ft.team_id as team_a_id,
     st.team_id as team_b_id,
     mt.match_type_id,
@@ -47,27 +47,22 @@ create or replace task cricket.bronze.load_match_fact
     m.toss_decision as toss_decision,
     m.match_result,
     case when m.winner = ft.team_name then ft.team_id else st.team_id end as winner_team_id
-from 
+    from 
     cricket.silver.match_details_clean m
-    join cricket.silver.date_dim dd on m.event_date = dd.full_dt
-    join cricket.silver.referee_dim mr on m.match_referee = mr.referee_name and mr.referee_type = 'match_referee'
-    join cricket.silver.referee_dim ru on m.reserve_umpire = ru.referee_name and ru.referee_type = 'reserve_umpire'
-    join cricket.silver.referee_dim tu on m.tv_umpire = tu.referee_name and tu.referee_type = 'tv_umpire'
-    join cricket.silver.referee_dim fu on m.first_umpire = fu.referee_name and fu.referee_type = 'first_umpire'
-    join cricket.silver.referee_dim su on m.second_umpire = su.referee_name and su.referee_type = 'second_umpire'
-    join cricket.silver.team_dim ft on m.first_team = ft.team_name
-    join cricket.silver.team_dim st on m.second_team = st.team_name
-    join cricket.silver.match_type_dim mt on m.match_type = mt.match_type
-    join cricket.silver.venue_dim vn on m.venue = vn.venue_name
+    join cricket.gold.date_dim dd on m.event_date = dd.full_dt
+    join cricket.gold.team_dim ft on m.first_team = ft.team_name
+    join cricket.gold.team_dim st on m.second_team = st.team_name
+    join cricket.gold.match_type_dim mt on m.match_type = mt.match_type
+    join cricket.gold.venue_dim vn on m.venue = vn.venue_name
     join cricket.silver.delivery_clean_tbl d on m.match_type_number = d.match_type_number
-group by 
+    group by 
     m.match_type_number,
     dd.date_id,
-    mr.referee_id,
-    ru.referee_id,
-    tu.referee_id,
-    fu.referee_id,
-    su.referee_id,
+    m.match_referee,
+    m.reserve_umpire,
+    m.tv_umpire,
+    m.first_umpire,
+    m.second_umpire,
     ft.team_id,
     st.team_id,
     mt.match_type_id,

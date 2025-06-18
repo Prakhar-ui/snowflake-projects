@@ -16,12 +16,6 @@ create or replace table date_dim (
     isweekend boolean
 );
 
-create or replace table referee_dim (
-    referee_id int primary key autoincrement,
-    referee_name text not null,
-    referee_type text not null
-);
-
 create or replace table team_dim (
     team_id int primary key autoincrement,
     team_name text not null
@@ -65,11 +59,11 @@ create or replace table match_type_dim (
 create or replace table match_fact (
     match_id INT PRIMARY KEY autoincrement,
     date_id INT NOT NULL,
-    match_referee_id INT NOT NULL,
-    reserve_umpire_id INT NOT NULL,
-    tv_umpire_id INT NOT NULL,
-    first_umpire_id INT NOT NULL,
-    second_umpire_id INT NOT NULL,
+    match_referee text,
+    reserve_umpire text,
+    tv_umpire text,
+    first_umpire text,
+    second_umpire text,
     team_a_id INT NOT NULL,
     team_b_id INT NOT NULL,
     match_type_id INT NOT NULL,
@@ -77,23 +71,23 @@ create or replace table match_fact (
     total_overs number(3),
     balls_per_over number(1),
 
-    overs_played_by_team_a number(2),
-    bowls_played_by_team_a number(3),
-    extra_bowls_played_by_team_a number(3),
-    extra_runs_scored_by_team_a number(3),
-    fours_by_team_a number(3),
-    sixes_by_team_a number(3),
-    total_score_by_team_a number(3),
-    wicket_lost_by_team_a number(2),
+    overs_played_by_team_a number(10),
+    bowls_played_by_team_a number(10),
+    extra_bowls_played_by_team_a number(10),
+    extra_runs_scored_by_team_a number(10),
+    fours_by_team_a number(10),
+    sixes_by_team_a number(10),
+    total_score_by_team_a number(10),
+    wicket_lost_by_team_a number(10),
 
-    overs_played_by_team_b number(2),
-    bowls_played_by_team_b number(3),
-    extra_bowls_played_by_team_b number(3),
-    extra_runs_scored_by_team_b number(3),
-    fours_by_team_b number(3),
-    sixes_by_team_b number(3),
-    total_score_by_team_b number(3),
-    wicket_lost_by_team_b number(2),
+    overs_played_by_team_b number(10),
+    bowls_played_by_team_b number(10),
+    extra_bowls_played_by_team_b number(10),
+    extra_runs_scored_by_team_b number(10),
+    fours_by_team_b number(10),
+    sixes_by_team_b number(10),
+    total_score_by_team_b number(10),
+    wicket_lost_by_team_b number(10),
 
     toss_winner_team_id int not null,
     toss_decision text not null,
@@ -101,12 +95,6 @@ create or replace table match_fact (
     winner_team_id int not null,
 
     CONSTRAINT fk_date FOREIGN KEY (date_id) REFERENCES date_dim (date_id),
-
-    CONSTRAINT fk_match_referee FOREIGN KEY (match_referee_id) REFERENCES referee_dim (referee_id),
-    CONSTRAINT fk_reserve_umpire FOREIGN KEY (reserve_umpire_id) REFERENCES referee_dim (referee_id),
-    CONSTRAINT fk_tv_umpire FOREIGN KEY (tv_umpire_id) REFERENCES referee_dim (referee_id),
-    CONSTRAINT fk_first_umpire FOREIGN KEY (first_umpire_id) REFERENCES referee_dim (referee_id),
-    CONSTRAINT fk_second_umpire FOREIGN KEY (second_umpire_id) REFERENCES referee_dim (referee_id),
 
     CONSTRAINT fk_team_a FOREIGN KEY (team_a_id) REFERENCES team_dim (team_id),
     CONSTRAINT fk_team_b FOREIGN KEY (team_b_id) REFERENCES team_dim (team_id),
