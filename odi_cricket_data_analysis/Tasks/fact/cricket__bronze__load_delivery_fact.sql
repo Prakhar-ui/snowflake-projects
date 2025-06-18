@@ -18,10 +18,10 @@ create or replace task cricket.bronze.load_delivery_fact
     coalesce(deliveries.wicket_type, 'None') as wicket_type
     from 
     cricket.silver.delivery_clean_tbl deliveries
-    join team_dim teams on deliveries.team_name = teams.team_name
-    join player_dim bowler on deliveries.bowler = bowler.player_name
-    join player_dim batter on deliveries.batter = batter.player_name
-    join player_dim non_striker on deliveries.non_striker = non_striker.player_name
+    join cricket.gold.team_dim teams on deliveries.team_name = teams.team_name
+    join cricket.gold.player_dim bowler on deliveries.bowler = bowler.player_name
+    join cricket.gold.player_dim batter on deliveries.batter = batter.player_name
+    join cricket.gold.player_dim non_striker on deliveries.non_striker = non_striker.player_name
     ) a left join cricket.gold.delivery_fact b on a.match_id = b.match_id
     where b.match_id is null
     ;
